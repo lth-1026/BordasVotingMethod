@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name_st">Borda\'s Voting Method</string>
+    <string name="main_name_st">Borda\'s Method</string>
+    <string name="number_option_st">Number of Options:</string>
+    <string name="voting_option_st">Voting Options:</string>
+    <string name="hint_humber_st">3</string>
+    <string name="voting_hint_st">Enter all options separated by comma!</string>
+    <string name="voted_st">Number of Votes So Far: </string>
+    <string name="voted_default_st">0</string>
+    <string name="start_button_st">Start Over</string>
+    <string name="add_button_st">Add a Vote</string>
+    <string name="switch_st">Show Voting Results</string>
+</resources>
