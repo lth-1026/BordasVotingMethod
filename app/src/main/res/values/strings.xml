@@ -11,4 +11,8 @@
     <string name="add_button_st">Add a Vote</string>
     <string name="switch_st">Show Voting Results</string>
     <string name="app_name">bordasvotingmethod</string>
+    <string name="your_preferences">Your Preferences</string>
+    <string name="your_borda_vote">Your Borda Vote</string>
+    <string name="cancel">CANCEL</string>
+    <string name="confirm_your_vote">CONFIRM YOUR VOTE</string>
 </resources>
