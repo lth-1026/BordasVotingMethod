@@ -10,4 +10,5 @@
     <string name="start_button_st">Start Over</string>
     <string name="add_button_st">Add a Vote</string>
     <string name="switch_st">Show Voting Results</string>
+    <string name="app_name">bordasvotingmethod</string>
 </resources>
