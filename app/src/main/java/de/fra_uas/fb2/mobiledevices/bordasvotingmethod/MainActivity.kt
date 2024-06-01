@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
                 //show result directly if isChecked is true
                 showResult(resultSw.isChecked)
 
+            }else if(result.resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Vote has been cancelled!", Toast.LENGTH_SHORT).show()
             }
         }
 

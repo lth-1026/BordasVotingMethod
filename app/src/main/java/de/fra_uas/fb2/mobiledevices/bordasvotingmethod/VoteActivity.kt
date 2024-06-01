@@ -15,6 +15,7 @@ class VoteActivity : AppCompatActivity() {
     private lateinit var preferencesLayout: LinearLayout
     private lateinit var bordaVoteLayout: LinearLayout
     private lateinit var confirmBt: Button
+    private lateinit var cancelBt: Button
 
     private lateinit var options: List<OptionData>
 
@@ -28,6 +29,7 @@ class VoteActivity : AppCompatActivity() {
         preferencesLayout = findViewById(R.id.preferencesLayout)
         bordaVoteLayout = findViewById(R.id.bordaVoteLayout)
         confirmBt = findViewById(R.id.confirmBt)
+        cancelBt = findViewById(R.id.cancelBt)
 
         //set seekbar
         val optionSeekBars = mutableListOf<SeekBar>()
@@ -86,6 +88,11 @@ class VoteActivity : AppCompatActivity() {
             resultIntent.putExtra("points", pointArray)
 
             setResult(RESULT_OK, resultIntent)
+            finish()
+        }
+
+        cancelBt.setOnClickListener {
+            setResult(RESULT_CANCELED)
             finish()
         }
     }
