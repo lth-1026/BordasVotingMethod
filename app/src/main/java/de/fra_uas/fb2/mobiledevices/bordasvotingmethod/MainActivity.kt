@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity() {
                 val voteValue = voteCountTv.text.toString().toInt()
                 voteCountTv.text = (voteValue + 1).toString()
                 //TODO: sum each previous points
+                voteInfo.sumOptionPoints(returnedResult!!.toList())
+                println(voteInfo.getBordaVoteResult())
+                resultTv.text = voteInfo.getBordaVoteResult()
 
             }
         }
@@ -63,7 +66,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveToVoteActivity() {
-        handleOptions()
+        if(votingEt.text.isEmpty()) {
+            handleOptions()
+        }
 
         val intent = Intent(this, VoteActivity::class.java)
         intent.putStringArrayListExtra("options", ArrayList(voteInfo.getOptionNames()))
