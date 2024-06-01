@@ -8,10 +8,6 @@ class VoteInfo {
         numOfOpt = inputNum
     }
 
-    fun getOptions(): String {
-        return options.joinToString(",") { option -> option.name }
-    }
-
     //make options by voteEt
     fun makeOptions(input: String) {
         var optionsSize = 0
@@ -59,6 +55,9 @@ class VoteInfo {
     }
 
     private fun calMaxOptions(): List<Int> {
+        //if option is not defined, return emptyList
+        if(options.size == 0) return emptyList()
+
         val maxValueIndexes = mutableListOf<Int>()
         var max = options[0].point
 

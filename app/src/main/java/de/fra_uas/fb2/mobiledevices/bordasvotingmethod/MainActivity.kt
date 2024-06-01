@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var votingEt: EditText
     private lateinit var addBt: Button
     private lateinit var voteCountTv: TextView
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private lateinit var resultSw: Switch
     private lateinit var resultTv: TextView
 
     private lateinit var voteInfo: VoteInfo
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         votingEt = findViewById(R.id.votingEt)
         addBt = findViewById(R.id.addBt)
         voteCountTv = findViewById(R.id.votedCountTv)
+        resultSw = findViewById(R.id.resultSw)
         resultTv = findViewById(R.id.resultTv)
 
         //prepare for resultActivity
@@ -41,10 +45,12 @@ class MainActivity : AppCompatActivity() {
                 //plus at resultTv
                 val voteValue = voteCountTv.text.toString().toInt()
                 voteCountTv.text = (voteValue + 1).toString()
-                //TODO: sum each previous points
+
+                //sum each previous points
                 voteInfo.sumOptionPoints(returnedResult!!.toList())
-                println(voteInfo.getBordaVoteResult())
-                resultTv.text = voteInfo.getBordaVoteResult()
+
+                //show result directly if isChecked is true
+                showResult(resultSw.isChecked)
 
             }
         }
@@ -62,6 +68,10 @@ class MainActivity : AppCompatActivity() {
 
         addBt.setOnClickListener {
             moveToVoteActivity()
+        }
+
+        resultSw.setOnCheckedChangeListener { _, isChecked ->
+            showResult(isChecked)
         }
     }
 
@@ -103,5 +113,13 @@ class MainActivity : AppCompatActivity() {
         voteInfo.makeOptions(inputValue)
 
         votingEt.setText(voteInfo.getOptionNamesToString())
+    }
+
+    private fun showResult(isChecked: Boolean) {
+        if(isChecked) {
+            resultTv.text = voteInfo.getBordaVoteResult()
+        } else {
+            resultTv.text = ""
+        }
     }
 }
