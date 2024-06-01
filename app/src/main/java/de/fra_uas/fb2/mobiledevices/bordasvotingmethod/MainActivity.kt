@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var numberOptionEt: EditText
     private lateinit var votingEt: EditText
+    private lateinit var startBt: Button
     private lateinit var addBt: Button
     private lateinit var voteCountTv: TextView
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         numberOptionEt = findViewById(R.id.numberOptionEt)
         votingEt = findViewById(R.id.votingEt)
+        startBt = findViewById(R.id.startBt)
         addBt = findViewById(R.id.addBt)
         voteCountTv = findViewById(R.id.votedCountTv)
         resultSw = findViewById(R.id.resultSw)
@@ -64,21 +66,14 @@ class MainActivity : AppCompatActivity() {
         //init new voteInfo
         voteInfo = VoteInfo()
 
-//        numberOptionEt.setOnFocusChangeListener { _, hasFocus ->
-//            if(!hasFocus) handleOptionCount()
-//        }
+        startBt.setOnClickListener {
+            voteCountTv.text = "0"
+            previousInputNum = null
+            previousInputOption = null
+            resultTv.text = ""
+            Toast.makeText(this, "Starting a new!", Toast.LENGTH_SHORT).show()
 
-//        numberOptionEt.setOnEditorActionListener { v, actionId, _ ->
-//            if(actionId == EditorInfo.IME_ACTION_DONE) {
-//                handleOptionCount()
-//                return@setOnEditorActionListener true
-//            }
-//            false
-//        }
-//
-//        votingEt.setOnFocusChangeListener { _, hasFocus ->
-//            if(!hasFocus) handleOptions()
-//        }
+        }
 
         addBt.setOnClickListener {
             moveToVoteActivity()
@@ -99,29 +94,6 @@ class MainActivity : AppCompatActivity() {
         startForResult.launch(intent)
     }
 
-//    private fun handleOptionCount() {
-//        var number = 3
-//        val numberValue = numberOptionEt.text.toString()
-//
-//        if (numberValue.isNotEmpty()) {
-//            number = numberValue.toInt()
-//        }
-//
-//        if(number < 2 || number > 10) {
-//            //todo: do something
-//        }
-//
-//        voteInfo.setNumOfOpt(number)
-//    }
-//
-//    private fun handleOptions() {
-//        val inputValue = votingEt.text.toString()
-//
-//        voteInfo.makeOptions(inputValue)
-//
-//        votingEt.setText(voteInfo.getOptionNamesToString())
-//    }
-
     private fun processOptions() {
         val numberValue = numberOptionEt.text.toString()
         val inputOptionValue = votingEt.text.toString()
@@ -134,6 +106,8 @@ class MainActivity : AppCompatActivity() {
         }else if(previousInputNum != numberValue || previousInputOption != inputOptionValue) {
             //if input values are changed, reset vote
             voteCountTv.text = "0"
+            resultTv.text = ""
+
             previousInputNum = numberValue
             previousInputOption = inputOptionValue
             makeOptions(numberValue, inputOptionValue)
