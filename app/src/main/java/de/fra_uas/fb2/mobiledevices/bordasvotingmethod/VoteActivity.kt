@@ -69,6 +69,12 @@ class VoteActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            //if option is not generated, call touch seekbar
+            if(!::options.isInitialized) {
+                Toast.makeText(this, "Do Vote!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val resultIntent = Intent()
 
             val points = options.sortedBy { it.index }.mapIndexed { _, option ->
