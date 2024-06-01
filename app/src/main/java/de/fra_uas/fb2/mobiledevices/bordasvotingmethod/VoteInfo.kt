@@ -4,12 +4,17 @@ class VoteInfo {
     private var numOfOpt = 3
     private var options = mutableListOf<Option>()
 
+    fun makeOptions(num: Int, inputOptions: String) {
+        setNumOfOpt(num)
+        processOptions(inputOptions)
+    }
+
     fun setNumOfOpt(inputNum: Int) {
         numOfOpt = inputNum
     }
 
     //make options by voteEt
-    fun makeOptions(input: String) {
+    private fun processOptions(input: String) {
         var optionsSize = 0
 
         if(input.isNotEmpty()) {
