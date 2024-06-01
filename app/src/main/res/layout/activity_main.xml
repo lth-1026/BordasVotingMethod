@@ -76,17 +76,18 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="15dp" />
 
-    <EditText
-        android:id="@+id/votedEt"
+    <TextView
+        android:id="@+id/votedCountTv"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:background="#FFEB3B"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/votingEt"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@id/votedTv"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="15dp"
-        android:hint="@string/voted_default_st"
+        android:text="@string/voted_default_st"
         android:textSize="20sp"/>
 
     <Button
@@ -140,7 +141,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/showResultTv"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <EditText
+    <TextView
         android:id="@+id/resultTv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
