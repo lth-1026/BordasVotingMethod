@@ -26,8 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var voteInfo: VoteInfo
 
-    private var previousInputNum: String? = null
-    private var previousInputOption: String? = null
+    private var savedInputNum: String? = "3"
+    private var savedInputOption: String? = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,13 +66,44 @@ class MainActivity : AppCompatActivity() {
         //init new voteInfo
         voteInfo = VoteInfo()
 
-        startBt.setOnClickListener {
-            voteCountTv.text = "0"
-            previousInputNum = null
-            previousInputOption = null
-            resultTv.text = ""
-            Toast.makeText(this, "Starting a new!", Toast.LENGTH_SHORT).show()
+        numberOptionEt.setOnFocusChangeListener { _, hasFocus ->
+            if(!hasFocus) {
+                //get input value and validation and set again
+                var numberValue = numberOptionEt.text.toString()
+                numberValue = validateOptionNum(numberValue)
+                numberOptionEt.setText(numberValue)
 
+                //if something change
+                if(savedInputNum != numberValue) {
+                    clearVoteResult()
+                    Toast.makeText(this, "All votes reset!", Toast.LENGTH_SHORT).show()
+                    savedInputNum = numberValue
+                    voteInfo.makeOptions(numberValue, savedInputOption)
+                }
+            }
+        }
+
+        votingEt.setOnFocusChangeListener { _, hasFocus ->
+            if(!hasFocus) {
+                val inputOptionValue = votingEt.text.toString()
+
+                //if something change
+                if(savedInputOption != inputOptionValue) {
+                    clearVoteResult()
+                    Toast.makeText(this, "All votes reset!", Toast.LENGTH_SHORT).show()
+                    savedInputOption = inputOptionValue
+
+                    voteInfo.makeOptions(savedInputNum, inputOptionValue)
+                }
+            }
+        }
+
+        startBt.setOnClickListener {
+            //reset vote
+            clearVoteResult()
+            savedInputNum = "3"
+            savedInputOption = ""
+            Toast.makeText(this, "Starting a new!", Toast.LENGTH_SHORT).show()
         }
 
         addBt.setOnClickListener {
@@ -86,7 +117,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun moveToVoteActivity() {
         //make options
-        processOptions()
+        //processOptions()
+
+        //if options is not defined, make options
+        //this situation invoke when user never touch edittext
+        if(voteInfo.getOptionSize() == 0) {
+            //make 3 as default value
+            numberOptionEt.setText(savedInputNum)
+            voteInfo.makeOptions(savedInputNum, savedInputOption)
+        }
+
+        //clear edittext and control data
+        numberOptionEt.clearFocus()
+        votingEt.clearFocus()
 
         val intent = Intent(this, VoteActivity::class.java)
         intent.putStringArrayListExtra("options", ArrayList(voteInfo.getOptionNames()))
@@ -94,40 +137,25 @@ class MainActivity : AppCompatActivity() {
         startForResult.launch(intent)
     }
 
-    private fun processOptions() {
-        val numberValue = numberOptionEt.text.toString()
-        val inputOptionValue = votingEt.text.toString()
-
-        //first, make options
-        if(previousInputNum == null && previousInputOption == null) {
-            previousInputNum = numberValue
-            previousInputOption = inputOptionValue
-            makeOptions(numberValue, inputOptionValue)
-        }else if(previousInputNum != numberValue || previousInputOption != inputOptionValue) {
-            //if input values are changed, reset vote
-            voteCountTv.text = "0"
-            resultTv.text = ""
-
-            previousInputNum = numberValue
-            previousInputOption = inputOptionValue
-            makeOptions(numberValue, inputOptionValue)
-            Toast.makeText(this, "All votes reset!", Toast.LENGTH_SHORT).show()
+    private fun validateOptionNum(input: String): String {
+        var num = 3
+        if(input.isNotEmpty()) {
+            num = input.toInt()
         }
+
+        if(num < 2) {
+            num = 2
+        } else if(num > 10) {
+            num = 10
+        }
+
+        return num.toString()
     }
 
-    private fun makeOptions(numberValue: String, inputOptionValue: String) {
-        var number = 3
-
-        if (numberValue.isNotEmpty()) {
-            number = numberValue.toInt()
-        }
-
-        if(number < 2 || number > 10) {
-            //todo: do something
-        }
-
-        voteInfo.makeOptions(number, inputOptionValue)
-
+    private fun clearVoteResult() {
+        voteInfo.clearOptionsPoint()
+        voteCountTv.text = "0"
+        resultTv.text = ""
     }
 
     private fun showResult(isChecked: Boolean) {

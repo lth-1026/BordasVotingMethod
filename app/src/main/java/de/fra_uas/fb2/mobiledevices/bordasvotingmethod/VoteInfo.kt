@@ -4,13 +4,26 @@ class VoteInfo {
     private var numOfOpt = 3
     private var options = mutableListOf<Option>()
 
-    fun makeOptions(num: Int, inputOptions: String) {
-        setNumOfOpt(num)
-        processOptions(inputOptions)
+    fun makeOptions(inputNum: String?, inputOptions: String?) {
+        //clear Options
+        options.clear()
+
+        //if inputNum is null, set
+        var num = inputNum
+        num = num ?: "3"
+        setNumOfOpt(num.toInt())
+
+        var options = inputOptions
+        options = options ?: ""
+        processOptions(options)
     }
 
-    fun setNumOfOpt(inputNum: Int) {
+    private fun setNumOfOpt(inputNum: Int) {
         numOfOpt = inputNum
+    }
+
+    fun getOptionSize(): Int {
+        return options.size
     }
 
     //make options by voteEt
@@ -38,14 +51,14 @@ class VoteInfo {
             .toMutableList()
     }
 
-    fun getOptionNamesToString(): String {
-        return getOptionNames().joinToString(",")
-    }
-
     fun sumOptionPoints(points: List<Int>) {
         points.forEachIndexed { index, point ->
             options[index].point += point
         }
+    }
+
+    fun clearOptionsPoint() {
+        options.forEach{it.point = 0}
     }
 
     fun getBordaVoteResult() : String {
